@@ -1,0 +1,25 @@
+<div class="login-container">
+    <form (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>帳號</mat-label>
+            <input matInput [ngModel]="username()" (ngModelChange)="username.set($event)" name="username"
+                placeholder="輸入帳號（至少3個字符）" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>密碼</mat-label>
+            <input matInput type="password" [ngModel]="password()" (ngModelChange)="password.set($event)"
+                name="password" placeholder="輸入密碼（至少6個字符）" />
+        </mat-form-field>
+
+        @if (errorMessage()) {
+        <div class="error-message">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="!isFormValid()" class="full-width">
+            登入
+        </button>
+    </form>
+</div>

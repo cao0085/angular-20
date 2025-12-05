@@ -1,0 +1,28 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "username": "admin",
+            "password": "admin123",
+            "email": "admin@example.com",
+            "role": "admin",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4ifQ.mock_token_admin"
+        },
+        {
+            "id": 2,
+            "username": "user01",
+            "password": "user123",
+            "email": "user01@example.com",
+            "role": "site_manager",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoidXNlcjAxIiwicm9sZSI6InVzZXIifQ.mock_token_user01"
+        },
+        {
+            "id": 3,
+            "username": "test",
+            "password": "test123",
+            "email": "test@example.com",
+            "role": "user",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoidGVzdCIsInJvbGUiOiJ1c2VyIn0.mock_token_test"
+        }
+    ]
+}
