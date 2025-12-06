@@ -42,6 +42,16 @@ export const routes: Routes = [
                     reuseRoute: true  // 啟用路由重用
                 }
             },
+            {
+                path: 'basic-system/permission-list',
+                loadComponent: () => import('./features/basic-system/permission-list/permission-list')
+                    .then(m => m.PermissionList),
+                canActivate: [roleGuard],
+                data: {
+                    roles: ModulePermissions[ModuleId.BASIC_SYSTEM],
+                    reuseRoute: true  // 啟用路由重用
+                }
+            },
 
             // ========================================
             // 外部系統 - 場地經理 + 系統人員

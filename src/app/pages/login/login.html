@@ -1,25 +1,31 @@
 <div class="login-container">
     <form (ngSubmit)="onSubmit()">
-        <mat-form-field>
-            <mat-label>帳號</mat-label>
-            <input matInput [ngModel]="username()" (ngModelChange)="username.set($event)" name="username"
-                placeholder="輸入帳號（至少3個字符）" />
-        </mat-form-field>
+        <h2>登入系統</h2>
 
-        <mat-form-field>
-            <mat-label>密碼</mat-label>
-            <input matInput type="password" [ngModel]="password()" (ngModelChange)="password.set($event)"
-                name="password" placeholder="輸入密碼（至少6個字符）" />
-        </mat-form-field>
+        <!-- 帳號輸入 -->
+        <div class="field">
+            <label for="username">帳號</label>
+            <input id="username" type="text" pInputText [ngModel]="username()" (ngModelChange)="username.set($event)"
+                name="username" placeholder="輸入帳號（至少3個字符）" class="w-full" />
+        </div>
 
+        <!-- 密碼輸入 -->
+        <div class="field">
+            <label for="password">密碼</label>
+            <p-password inputId="password" [ngModel]="password()" (ngModelChange)="password.set($event)" name="password"
+                placeholder="輸入密碼（至少6個字符）" [feedback]="false" [toggleMask]="true" styleClass="w-full"></p-password>
+        </div>
+
+        <!-- 錯誤訊息 -->
         @if (errorMessage()) {
         <div class="error-message">
+            <i class="pi pi-exclamation-circle"></i>
             {{ errorMessage() }}
         </div>
         }
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="!isFormValid()" class="full-width">
-            登入
-        </button>
+        <!-- 登入按鈕 -->
+        <p-button type="submit" label="登入" severity="primary" [disabled]="!isFormValid()"
+            styleClass="w-full"></p-button>
     </form>
 </div>

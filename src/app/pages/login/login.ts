@@ -3,19 +3,19 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-// material
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+// PrimeNG
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-login',
   imports: [
     FormsModule,
     CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
+    InputTextModule,
+    ButtonModule,
+    PasswordModule,
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',

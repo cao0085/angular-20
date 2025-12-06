@@ -1,0 +1,38 @@
+<div class="page-container">
+  <p-card header="權限管理">
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+      <!-- 第一行：站點代碼、使用者代碼 -->
+      <div class="form-row">
+        <!-- 站點代碼 -->
+        <div class="field">
+          <label for="siteCode">站點代碼 <span class="required">*</span></label>
+          <input id="siteCode" pInputText formControlName="siteCode" placeholder="請輸入站點代碼" class="w-full" />
+        </div>
+
+        <!-- 使用者代碼 (限制數字) -->
+        <div class="field">
+          <label for="userCode">使用者代碼 <span class="required">*</span></label>
+          <input id="userCode" pInputText formControlName="userCode" placeholder="請輸入數字" class="w-full" />
+        </div>
+      </div>
+
+      <!-- 第二行：日期區間 -->
+      <div class="form-row">
+        <!-- 日期區間選擇器 -->
+        <div class="field field-full">
+          <label for="dateRange">日期區間 <span class="required">*</span></label>
+          <p-datepicker inputId="dateRange" formControlName="dateRange" selectionMode="range" [showIcon]="true"
+            size="small" dateFormat="yy-mm-dd" placeholder="選擇日期區間" />
+        </div>
+      </div>
+
+      <!-- 按鈕 -->
+      <div class="form-actions">
+        <p-button label="重置" severity="secondary" (onClick)="onReset()" [outlined]="true"></p-button>
+        <p-button type="submit" label="查詢" severity="primary" [disabled]="!searchForm.valid"></p-button>
+      </div>
+
+    </form>
+  </p-card>
+</div>

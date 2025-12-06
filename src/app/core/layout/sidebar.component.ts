@@ -222,7 +222,8 @@ export class SidebarComponent {
       moduleId: ModuleId.BASIC_SYSTEM, // 關聯權限模組
       children: [
         { id: 'system-log', label: '系統日誌', route: '/main/basic-system/log' },
-        { id: 'system-directory', label: '系統目錄', route: '/main/basic-system/directory' }
+        { id: 'system-directory', label: '系統目錄', route: '/main/basic-system/directory' },
+        { id: 'permission-list', label: '權限管理', route: '/main/basic-system/permission-list' }
       ]
     },
     {
