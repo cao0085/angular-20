@@ -1,0 +1,373 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "username": "admin",
+            "password": "admin123",
+            "email": "admin@example.com",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4ifQ.mock_token_admin"
+        },
+        {
+            "id": 2,
+            "username": "user01",
+            "password": "user123",
+            "email": "user01@example.com",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoidXNlcjAxIn0.mock_token_user01"
+        },
+        {
+            "id": 3,
+            "username": "test",
+            "password": "test123",
+            "email": "test@example.com",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoidGVzdCJ9.mock_token_test"
+        }
+    ],
+    "claims": [
+        {
+            "id": 1,
+            "code": "BASIC_SYSTEM_MODULE",
+            "name": "基礎系統",
+            "type": "ROUTE",
+            "module": "BasicSystem",
+            "parentId": null
+        },
+        {
+            "id": 2,
+            "code": "BASIC_SYSTEM_LOG",
+            "name": "系統日誌",
+            "type": "ROUTE",
+            "module": "BasicSystem",
+            "parentId": 1
+        },
+        {
+            "id": 3,
+            "code": "BASIC_SYSTEM_DIRECTORY",
+            "name": "系統目錄",
+            "type": "ROUTE",
+            "module": "BasicSystem",
+            "parentId": 1
+        },
+        {
+            "id": 4,
+            "code": "BASIC_SYSTEM_PERMISSION",
+            "name": "權限列表",
+            "type": "ROUTE",
+            "module": "BasicSystem",
+            "parentId": 1
+        },
+        {
+            "id": 5,
+            "code": "BASIC_SYSTEM_LOG_VIEW",
+            "name": "檢視日誌",
+            "type": "ACTION",
+            "module": "BasicSystem",
+            "parentId": 2
+        },
+        {
+            "id": 6,
+            "code": "BASIC_SYSTEM_LOG_EXPORT",
+            "name": "匯出日誌",
+            "type": "ACTION",
+            "module": "BasicSystem",
+            "parentId": 2
+        },
+        {
+            "id": 7,
+            "code": "EXTERNAL_SYSTEM_MODULE",
+            "name": "外部系統",
+            "type": "ROUTE",
+            "module": "ExternalSystem",
+            "parentId": null
+        },
+        {
+            "id": 8,
+            "code": "EXTERNAL_SYSTEM_VENDOR_DATA",
+            "name": "廠商資料",
+            "type": "ROUTE",
+            "module": "ExternalSystem",
+            "parentId": 7
+        },
+        {
+            "id": 9,
+            "code": "EXTERNAL_SYSTEM_VENDOR_INTEGRATION",
+            "name": "廠商整合",
+            "type": "ROUTE",
+            "module": "ExternalSystem",
+            "parentId": 7
+        },
+        {
+            "id": 10,
+            "code": "EXTERNAL_SYSTEM_VENDOR_CREATE",
+            "name": "建立廠商",
+            "type": "ACTION",
+            "module": "ExternalSystem",
+            "parentId": 8
+        },
+        {
+            "id": 11,
+            "code": "EXTERNAL_SYSTEM_VENDOR_EDIT",
+            "name": "編輯廠商",
+            "type": "ACTION",
+            "module": "ExternalSystem",
+            "parentId": 8
+        },
+        {
+            "id": 12,
+            "code": "PAYMENT_SYSTEM_MODULE",
+            "name": "金流系統",
+            "type": "ROUTE",
+            "module": "PaymentSystem",
+            "parentId": null
+        },
+        {
+            "id": 13,
+            "code": "PAYMENT_SYSTEM_METHOD",
+            "name": "付款方式",
+            "type": "ROUTE",
+            "module": "PaymentSystem",
+            "parentId": 12
+        },
+        {
+            "id": 14,
+            "code": "PAYMENT_SYSTEM_INTEGRATION",
+            "name": "金流整合",
+            "type": "ROUTE",
+            "module": "PaymentSystem",
+            "parentId": 12
+        },
+        {
+            "id": 15,
+            "code": "PAYMENT_SYSTEM_METHOD_CREATE",
+            "name": "新增付款方式",
+            "type": "ACTION",
+            "module": "PaymentSystem",
+            "parentId": 13
+        },
+        {
+            "id": 16,
+            "code": "PARKING_SYSTEM_MODULE",
+            "name": "路邊停車系統",
+            "type": "ROUTE",
+            "module": "ParkingSystem",
+            "parentId": null
+        },
+        {
+            "id": 17,
+            "code": "PARKING_SYSTEM_ORDER",
+            "name": "訂單管理",
+            "type": "ROUTE",
+            "module": "ParkingSystem",
+            "parentId": 16
+        },
+        {
+            "id": 18,
+            "code": "PARKING_SYSTEM_REPORT",
+            "name": "報表分析",
+            "type": "ROUTE",
+            "module": "ParkingSystem",
+            "parentId": 16
+        },
+        {
+            "id": 19,
+            "code": "PARKING_SYSTEM_REPORT_VOID",
+            "name": "作廢報表",
+            "type": "ROUTE",
+            "module": "ParkingSystem",
+            "parentId": 18
+        },
+        {
+            "id": 20,
+            "code": "PARKING_SYSTEM_REPORT_BILLING",
+            "name": "計費明細",
+            "type": "ROUTE",
+            "module": "ParkingSystem",
+            "parentId": 18
+        },
+        {
+            "id": 21,
+            "code": "PARKING_SYSTEM_REPORT_UPLOAD",
+            "name": "上傳統計",
+            "type": "ROUTE",
+            "module": "ParkingSystem",
+            "parentId": 18
+        },
+        {
+            "id": 22,
+            "code": "PARKING_SYSTEM_ORDER_CREATE",
+            "name": "建立訂單",
+            "type": "ACTION",
+            "module": "ParkingSystem",
+            "parentId": 17
+        },
+        {
+            "id": 23,
+            "code": "PARKING_SYSTEM_ORDER_CANCEL",
+            "name": "取消訂單",
+            "type": "ACTION",
+            "module": "ParkingSystem",
+            "parentId": 17
+        },
+        {
+            "id": 24,
+            "code": "PARKING_SYSTEM_REPORT_EXPORT",
+            "name": "匯出報表",
+            "type": "ACTION",
+            "module": "ParkingSystem",
+            "parentId": 18
+        }
+    ],
+    "userClaims": [
+        {
+            "userId": 1,
+            "claimId": 1
+        },
+        {
+            "userId": 1,
+            "claimId": 2
+        },
+        {
+            "userId": 1,
+            "claimId": 3
+        },
+        {
+            "userId": 1,
+            "claimId": 4
+        },
+        {
+            "userId": 1,
+            "claimId": 5
+        },
+        {
+            "userId": 1,
+            "claimId": 6
+        },
+        {
+            "userId": 1,
+            "claimId": 7
+        },
+        {
+            "userId": 1,
+            "claimId": 8
+        },
+        {
+            "userId": 1,
+            "claimId": 9
+        },
+        {
+            "userId": 1,
+            "claimId": 10
+        },
+        {
+            "userId": 1,
+            "claimId": 11
+        },
+        {
+            "userId": 1,
+            "claimId": 12
+        },
+        {
+            "userId": 1,
+            "claimId": 13
+        },
+        {
+            "userId": 1,
+            "claimId": 14
+        },
+        {
+            "userId": 1,
+            "claimId": 15
+        },
+        {
+            "userId": 1,
+            "claimId": 16
+        },
+        {
+            "userId": 1,
+            "claimId": 17
+        },
+        {
+            "userId": 1,
+            "claimId": 18
+        },
+        {
+            "userId": 1,
+            "claimId": 19
+        },
+        {
+            "userId": 1,
+            "claimId": 20
+        },
+        {
+            "userId": 1,
+            "claimId": 21
+        },
+        {
+            "userId": 1,
+            "claimId": 22
+        },
+        {
+            "userId": 1,
+            "claimId": 23
+        },
+        {
+            "userId": 1,
+            "claimId": 24
+        },
+        {
+            "userId": 2,
+            "claimId": 2
+        },
+        {
+            "userId": 2,
+            "claimId": 3
+        },
+        {
+            "userId": 2,
+            "claimId": 5
+        },
+        {
+            "userId": 2,
+            "claimId": 8
+        },
+        {
+            "userId": 2,
+            "claimId": 9
+        },
+        {
+            "userId": 2,
+            "claimId": 10
+        },
+        {
+            "userId": 2,
+            "claimId": 17
+        },
+        {
+            "userId": 2,
+            "claimId": 19
+        },
+        {
+            "userId": 2,
+            "claimId": 20
+        },
+        {
+            "userId": 2,
+            "claimId": 22
+        },
+        {
+            "userId": 3,
+            "claimId": 17
+        },
+        {
+            "userId": 3,
+            "claimId": 19
+        },
+        {
+            "userId": 3,
+            "claimId": 20
+        },
+        {
+            "userId": 3,
+            "claimId": 21
+        }
+    ]
+}

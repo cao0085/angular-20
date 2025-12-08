@@ -1,17 +1,19 @@
 import { Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabService } from '../services/tab.service';
-import { AuthService } from '../services/auth.service';
-import { ModuleId, ModulePermissions } from '../models/roles';
+import { PermissionService, ClaimType, ClaimTreeNode } from '../services/permission.service';
+import { ClaimCode } from '../models/claims';
+import { buildAllClaimRouteMap } from '../config/route.config';
+import { Router } from '@angular/router';
 
 interface MenuItem {
   id: string;
-  label: string;
+  name: string;
   route: string;
   icon?: string;
   children?: MenuItem[];
   expanded?: boolean;
-  moduleId?: ModuleId; // 新增：關聯到權限模組
+  claimCode?: string; // 權限代碼
 }
 
 @Component({
@@ -20,9 +22,14 @@ interface MenuItem {
   imports: [CommonModule],
   template: `
     <aside class="sidebar" [class.collapsed]="isCollapsed">
-      <!-- 收合按鈕 -->
-      <div class="toggle-btn" (click)="toggleSidebar()">
-        <span>{{ isCollapsed ? '▶' : '◀' }}</span>
+      <!-- 標頭：首頁按鈕 + 收合按鈕 -->
+      <div class="sidebar-header">
+        <button class="home-btn" (click)="goToHome()" *ngIf="!isCollapsed" title="回到首頁">
+          <span class="label">首頁</span>
+        </button>
+        <button class="toggle-btn" (click)="toggleSidebar()" [title]="isCollapsed ? '展開側邊欄' : '收合側邊欄'">
+          <span>{{ isCollapsed ? '▶' : '◀' }}</span>
+        </button>
       </div>
 
       <!-- 選單列表 -->
@@ -32,7 +39,7 @@ interface MenuItem {
             <!-- 父選單 -->
             <div class="menu-label" (click)="toggleMenu(item)">
               <span class="icon" *ngIf="item.icon">{{ item.icon }}</span>
-              <span class="label">{{ item.label }}</span>
+              <span class="label">{{ item.name }}</span>
               <span class="arrow" *ngIf="item.children">
                 {{ item.expanded ? '▼' : '▶' }}
               </span>
@@ -43,21 +50,21 @@ interface MenuItem {
               <li *ngFor="let child of item.children" class="submenu-item">
                 <!-- 如果還有子選單 -->
                 <div *ngIf="child.children" class="submenu-label" (click)="toggleMenu(child)">
-                  <span>{{ child.label }}</span>
+                  <span>{{ child.name }}</span>
                   <span class="arrow">{{ child.expanded ? '▼' : '▶' }}</span>
                 </div>
                 
                 <!-- 如果沒有子選單，直接點擊開啟分頁 -->
-                <div *ngIf="!child.children" class="submenu-label clickable" (click)="openTab(child)">
-                  <span>{{ child.label }}</span>
+                <div *ngIf="!child.children" class="submenu-label clickable" (click)="goToRoute(child)">
+                  <span>{{ child.name }}</span>
                 </div>
 
                 <!-- 第三層選單 -->
                 <ul *ngIf="child.children && child.expanded" class="submenu-level-3">
                   <li *ngFor="let subChild of child.children" 
                       class="submenu-item-level-3"
-                      (click)="openTab(subChild)">
-                    {{ subChild.label }}
+                      (click)="goToRoute(subChild)">
+                    {{ subChild.name }}
                   </li>
                 </ul>
               </li>
@@ -82,15 +89,51 @@ interface MenuItem {
       width: 50px;
     }
 
-    .toggle-btn {
+    .sidebar-header {
       height: 50px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
       background: #34495e;
       border-bottom: 1px solid #1a252f;
+    }
+
+    .home-btn {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+      padding: 0 15px;
+    }
+
+    .home-btn:hover {
+      background: #3d566e;
+    }
+
+    .home-btn .icon {
       font-size: 18px;
+    }
+
+    .toggle-btn {
+      width: 50px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      border-left: 1px solid #1a252f;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.2s;
     }
 
     .toggle-btn:hover {
@@ -211,107 +254,67 @@ interface MenuItem {
 })
 export class SidebarComponent {
   isCollapsed = false;
+  private allRouteMap = buildAllClaimRouteMap();
 
-  // 完整的選單定義（包含所有項目）
-  private allMenuItems: MenuItem[] = [
-    {
-      id: 'basic-system',
-      label: '基礎系統',
-      route: '/main/basic-system',
-      expanded: false,
-      moduleId: ModuleId.BASIC_SYSTEM, // 關聯權限模組
-      children: [
-        { id: 'system-log', label: '系統日誌', route: '/main/basic-system/log' },
-        { id: 'system-directory', label: '系統目錄', route: '/main/basic-system/directory' },
-        { id: 'permission-list', label: '權限管理', route: '/main/basic-system/permission-list' }
-      ]
-    },
-    {
-      id: 'external-system',
-      label: '外部系統',
-      route: '/main/external-system',
-      expanded: false,
-      moduleId: ModuleId.EXTERNAL_SYSTEM,
-      children: [
-        { id: 'vendor-data', label: '廠商資料', route: '/main/external-system/vendor-data' },
-        { id: 'vendor-integration', label: '廠商串接', route: '/main/external-system/vendor-integration' }
-      ]
-    },
-    {
-      id: 'payment-system',
-      label: '金流系統',
-      route: '/main/payment-system',
-      expanded: false,
-      moduleId: ModuleId.PAYMENT_SYSTEM,
-      children: [
-        { id: 'payment-method', label: '收費方式', route: '/main/payment-system/payment-method' },
-        { id: 'payment-integration', label: '金流串接', route: '/main/payment-system/payment-integration' }
-      ]
-    },
-    {
-      id: 'parking-system',
-      label: '路邊停車系統',
-      route: '/main/parking-system',
-      expanded: false,
-      moduleId: ModuleId.PARKING_SYSTEM,
-      children: [
-        { id: 'order-management', label: '訂單管理', route: '/main/parking-system/order-management' },
-        {
-          id: 'report-analysis',
-          label: '報表分析',
-          route: '/main/parking-system/report-analysis',
-          expanded: false,
-          children: [
-            { id: 'void-report', label: '作廢報表', route: '/main/parking-system/report-analysis/void-report' },
-            { id: 'billing-detail', label: '開單明細', route: '/main/parking-system/report-analysis/billing-detail' },
-            { id: 'upload-statistics', label: '上傳統計', route: '/main/parking-system/report-analysis/upload-statistics' }
-          ]
-        }
-      ]
-    }
-  ];
-
-  // 根據使用者權限過濾選單項目
+  // UI DataSource => 根據權限動態建構
   menuItems = computed(() => {
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser) {
-      return [];
-    }
-
-    return this.allMenuItems.filter(item => {
-      // 如果沒有設定 moduleId，表示所有人都可以看到
-      if (!item.moduleId) {
-        return true;
-      }
-
-      // 檢查使用者角色是否有權限訪問此模組
-      const allowedRoles = ModulePermissions[item.moduleId];
-      return allowedRoles.includes(currentUser.role);
-    });
+    const claimTree = this.permissionService.userClaimTree();
+    const routeTree = this.filterRoutePermissions(claimTree);
+    return this.convertToMenuItems(routeTree);
   });
 
-  // 也可以用 inject()
-  // private tabService = inject(TabService);
-  // private authService = inject(AuthService);
   constructor(
     private tabService: TabService,
-    private authService: AuthService
+    private permissionService: PermissionService,
+    private router: Router
   ) { }
-  ;
+
+  /**
+   * 拿 ROUTE 類型的權限(遞迴)
+   */
+  private filterRoutePermissions(nodes: ClaimTreeNode[]): ClaimTreeNode[] {
+    return nodes
+      .filter(node => node.type === ClaimType.ROUTE)
+      .map(node => ({
+        ...node,
+        children: node.children ? this.filterRoutePermissions(node.children) : []
+      }));
+  }
+
+  /**
+   * 將 ClaimTreeNode 轉換為 MenuItem (遞迴)
+   */
+  private convertToMenuItems(nodes: ClaimTreeNode[]): MenuItem[] {
+    return nodes.map(node => {
+      const route = this.allRouteMap[node.code as ClaimCode] || '#';
+
+      return {
+        id: node.id.toString(),
+        name: node.name,
+        route: route,
+        claimCode: node.code,
+        expanded: false,
+        children: node.children && node.children.length > 0
+          ? this.convertToMenuItems(node.children)
+          : undefined
+      };
+    });
+  }
+
+  goToHome() {
+    // 關閉所有分頁，返回首頁
+    this.tabService.closeAllTabs();
+  }
+
+  goToRoute(item: MenuItem) {
+    this.router.navigate([item.route]);
+  }
+
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
   }
 
   toggleMenu(item: MenuItem) {
     item.expanded = !item.expanded;
-  }
-
-  openTab(item: MenuItem) {
-    this.tabService.openTab({
-      id: item.id,
-      title: item.label,
-      route: item.route,
-      closable: true
-    });
   }
 }

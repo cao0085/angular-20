@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { TabService, Tab } from '../services/tab.service';
+import { HomeComponent } from '../../features/home.component';
 
 @Component({
   selector: 'app-tab-container',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, HomeComponent],
   template: `
     <div class="tab-container">
       <!-- 分頁標籤列 -->
@@ -26,7 +27,11 @@ import { TabService, Tab } from '../services/tab.service';
 
       <!-- 分頁內容區 -->
       <div class="tab-content">
-        <router-outlet></router-outlet>
+        <!-- 當有 tabs 時顯示 router-outlet -->
+        <router-outlet *ngIf="tabs$().length"></router-outlet>
+        
+        <!-- 當沒有 tabs 時顯示首頁 -->
+        <app-home *ngIf="!tabs$().length"></app-home>
       </div>
     </div>
   `,
@@ -128,7 +133,6 @@ export class TabContainerComponent {
   activeTabId$ = this.tabService.activeTabId$;
 
   switchTab(tab: Tab) {
-    // 直接使用 openTab，它會處理切換邏輯
     this.tabService.openTab(tab);
   }
 

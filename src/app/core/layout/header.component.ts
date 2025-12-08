@@ -15,7 +15,6 @@ import { AuthService } from '../services/auth.service';
         @if (currentUser()) {
           <div class="user-info">
             <span class="user-name">{{ currentUser()?.username }}</span>
-            <span class="user-role">{{ currentUser()?.displayName }}</span>
           </div>
           <button class="logout-btn" (click)="logout()" title="登出">
             <span class="logout-text">登出</span>

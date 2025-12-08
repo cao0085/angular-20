@@ -1,6 +1,9 @@
-import { Injectable, signal } from '@angular/core';
-import { Router, RouteReuseStrategy } from '@angular/router';
+import { Injectable, signal, inject } from '@angular/core';
+import { Router, RouteReuseStrategy, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { CustomRouteReuseStrategy } from '../strategies/route-reuse.strategy';
+import { PermissionService } from './permission.service';
+import { ROUTE_CONFIGS } from '../config/route.config';
 
 export interface Tab {
     id: string;
@@ -21,28 +24,78 @@ export class TabService {
     readonly tabs$ = this.tabs.asReadonly();
     readonly activeTabId$ = this.activeTabId.asReadonly();
 
+    private permissionService = inject(PermissionService);
+
     constructor(
         private router: Router,
         private routeReuseStrategy: RouteReuseStrategy
-    ) { }
+    ) {
+        // 監聽路由變化，自動同步 tab
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd)
+        ).subscribe((event: NavigationEnd) => {
+            this.syncTabFromRoute(event.urlAfterRedirects || event.url);
+        });
+    }
+
+    /**
+     * 根據當前路由自動創建/切換
+     */
+    private syncTabFromRoute(url: string) {
+        // 移除查詢參數
+        const cleanUrl = url.split('?')[0];
+
+        // 如果是根路徑、登入頁或未授權頁，不創建 tab
+        if (cleanUrl === '/' || cleanUrl === '' ||
+            cleanUrl.startsWith('/login') ||
+            cleanUrl.startsWith('/unauthorized')) {
+            return;
+        }
+
+        // path 回推是哪個路由配置
+        const path = cleanUrl.substring(1);
+        const routeConfig = ROUTE_CONFIGS.find(config => config.path === path);
+
+        if (!routeConfig) {
+            console.warn(`找不到路由配置: ${path}`);
+            // TODO: 未找到路由配置時，應該導向到 404 頁面
+            return;
+        }
+
+        // 檢查該用戶有無訪問權限
+        const claim = this.permissionService.userClaims()
+            .find(c => c.code === routeConfig.claim);
+
+        if (!claim) {
+            console.warn(`找不到權限: ${routeConfig.claim}`);
+            return;
+        }
+
+        // route 當作唯一 tab ID
+        const newTab: Tab = {
+            id: path.replace(/\//g, '-'),
+            title: claim.name,
+            route: cleanUrl,
+            closable: true
+        };
+
+        this.openTab(newTab);
+    }
 
     /**
      * 開啟新分頁
      */
     openTab(tab: Tab) {
-        const currentTabs = this.tabs();  // 使用 () 取得當前值
+        const currentTabs = this.tabs();
         const existingTab = currentTabs.find(t => t.id === tab.id);
-
+        console.log(existingTab);
         if (existingTab) {
-            // 如果分頁已存在，切換到該分頁
-            this.setActiveTab(tab.id);
-            this.router.navigate([tab.route]);
+            this.setActiveTab(tab.id); // 若已存在，顯示該分頁
         } else {
-            // 新增分頁 - 使用 set() 更新
-            this.tabs.set([...currentTabs, tab]);
+            this.tabs.set([...currentTabs, tab]); // 若不存在，新增該分頁
             this.setActiveTab(tab.id);
-            this.router.navigate([tab.route]);
         }
+        this.router.navigate([tab.route]);
     }
 
     /**
@@ -67,6 +120,8 @@ export class TabService {
             this.router.navigate([newTabs[newActiveIndex].route]);
         } else if (newTabs.length === 0) {
             this.activeTabId.set('');
+            // 回到首頁
+            this.router.navigate(['/']);
         }
     }
 
@@ -87,6 +142,8 @@ export class TabService {
         }
         this.tabs.set([]);
         this.activeTabId.set('');
+        // 回到首頁
+        this.router.navigate(['/']);
     }
 
     /**

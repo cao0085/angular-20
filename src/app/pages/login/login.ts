@@ -43,7 +43,7 @@ export class Login {
 
       if (result.success) {
         // 登入成功後導向主系統
-        this.router.navigate(['/main']);
+        this.router.navigate(['']);
       } else {
         // 顯示錯誤訊息
         this.errorMessage.set(result.message || '登入失敗');

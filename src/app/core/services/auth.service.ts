@@ -1,13 +1,11 @@
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserRole } from '../models/roles';
-import usersData from '../../../mockDB/user.json';
+import userPermissionData from '../../../mockDB/userPermission.json';
 
 export interface User {
-    id: string;
+    id: number;
     username: string;
-    role: UserRole;  // 改為單一角色
-    displayName: string;
+    email: string;
 }
 
 @Injectable({
@@ -35,35 +33,12 @@ export class AuthService {
     }
 
     /**
-     * 檢查是否有指定角色
-     */
-    hasRole(role: UserRole): boolean {
-        const user = this.currentUser();
-        return user ? user.role === role : false;
-    }
-
-    /**
-     * 檢查是否有任一角色（支援多個角色檢查）
-     */
-    hasAnyRole(roles: UserRole[]): boolean {
-        const user = this.currentUser();
-        return user ? roles.includes(user.role) : false;
-    }
-
-    /**
-     * 檢查是否為系統人員（admin 有所有權限）
-     */
-    isAdmin(): boolean {
-        return this.hasRole(UserRole.ADMIN);
-    }
-
-    /**
      * 登入
      * @returns { success: boolean, message?: string }
      */
     login(username: string, password: string): { success: boolean; message?: string } {
-        // 從 user.json 中查找使用者 模擬 API
-        const foundUser = usersData.users.find(
+        // 從 userPermission.json 中查找使用者
+        const foundUser = userPermissionData.users.find(
             u => u.username === username && u.password === password
         );
 
@@ -74,21 +49,10 @@ export class AuthService {
             };
         }
 
-        // 將 JSON 中的 role 轉換為 UserRole enum
-        const roleMap: Record<string, UserRole> = {
-            'admin': UserRole.ADMIN,
-            'site_manager': UserRole.SITE_MANAGER,
-            'site_director': UserRole.SITE_DIRECTOR,
-            'user': UserRole.SITE_MANAGER // 預設將 'user' 映射為場地管理員
-        };
-
-        const userRole = roleMap[foundUser.role] || UserRole.SITE_MANAGER;
-
         const user: User = {
-            id: foundUser.id.toString(),
+            id: foundUser.id,
             username: foundUser.username,
-            role: userRole,
-            displayName: this.getRoleDisplayName(userRole)
+            email: foundUser.email
         };
 
         const token = foundUser.token;
@@ -104,18 +68,6 @@ export class AuthService {
         return {
             success: true
         };
-    }
-
-    /**
-     * 取得角色顯示名稱
-     */
-    private getRoleDisplayName(role: UserRole): string {
-        const displayNames: Record<UserRole, string> = {
-            [UserRole.ADMIN]: '系統人員',
-            [UserRole.SITE_MANAGER]: '場地管理員',
-            [UserRole.SITE_DIRECTOR]: '場地經理'
-        };
-        return displayNames[role];
     }
 
     /**
