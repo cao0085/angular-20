@@ -4,12 +4,16 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 // 定義 domain 類型
-export type DomainKey = keyof BaseApiService['domains'];
+export type DomainKey = keyof BaseApiHttpClientService['domains'];
 
+/**
+ * 基於 HttpClient 的 API Service
+ * 使用傳統的 Observable 模式
+ */
 @Injectable({
     providedIn: 'root'
 })
-export class BaseApiService {
+export class BaseApiHttpClientService {
     // 固定的兩個 domain
     protected readonly domains = {
         DOMAIN_1: 'https://api-1.example.com',
@@ -104,7 +108,7 @@ export class BaseApiService {
     /**
      * 錯誤處理
      */
-    private handleError(error: HttpErrorResponse) {
+    private handleError(error: HttpErrorResponse): Observable<never> {
         let errorMessage = '發生錯誤';
 
         if (error.error instanceof ErrorEvent) {

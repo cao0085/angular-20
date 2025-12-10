@@ -1,0 +1,84 @@
+{
+    "siteInfos": [
+        {
+            "id": 1,
+            "code": 1234,
+            "serial": "A0001",
+            "name": "測試場_01",
+            "url": "https://www.example.com",
+            "description": "This is an example site for demonstration purposes."
+        },
+        {
+            "id": 2,
+            "code": 5678,
+            "serial": "B0001",
+            "name": "測試場_02",
+            "url": "https://www.testsite.com",
+            "description": "This site is used for testing."
+        },
+        {
+            "id": 3,
+            "code": 2345,
+            "serial": "A0002",
+            "name": "測試場_03",
+            "url": "https://www.demo-site.com",
+            "description": "Demo site for product showcase and trials."
+        },
+        {
+            "id": 4,
+            "code": 3456,
+            "serial": "C0001",
+            "name": "測試場_04",
+            "url": "https://www.staging-env.com",
+            "description": "Staging environment for pre-production testing."
+        },
+        {
+            "id": 5,
+            "code": 4567,
+            "serial": "D0001",
+            "name": "測試場_05",
+            "url": "https://www.dev-platform.com",
+            "description": "Development platform for feature integration."
+        },
+        {
+            "id": 6,
+            "code": 6789,
+            "serial": "A0003",
+            "name": "測試場_06",
+            "url": "https://www.qa-testing.com",
+            "description": "Quality assurance testing environment."
+        },
+        {
+            "id": 7,
+            "code": 7890,
+            "serial": "E0001",
+            "name": "測試場_07",
+            "url": "https://www.sandbox-test.com",
+            "description": "Sandbox environment for experimental features."
+        },
+        {
+            "id": 8,
+            "code": 8901,
+            "serial": "B0002",
+            "name": "測試場_08",
+            "url": "https://www.beta-release.com",
+            "description": "Beta release site for early adopters."
+        },
+        {
+            "id": 9,
+            "code": 9012,
+            "serial": "F0001",
+            "name": "測試場_09",
+            "url": "https://www.performance-test.com",
+            "description": "Performance and load testing environment."
+        },
+        {
+            "id": 10,
+            "code": 1123,
+            "serial": "A0004",
+            "name": "測試場_10",
+            "url": "https://www.integration-test.com",
+            "description": "Integration testing site for API validation."
+        }
+    ]
+}
