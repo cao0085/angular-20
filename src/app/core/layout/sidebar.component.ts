@@ -2,7 +2,7 @@ import { Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabService } from '../services/tab.service';
 import { PermissionService, ClaimType, ClaimTreeNode } from '../services/permission.service';
-import { ClaimCode } from '../models/claims';
+import { ClaimCode } from '../constants/claims';
 import { buildAllClaimRouteMap } from '../config/route.config';
 import { Router } from '@angular/router';
 

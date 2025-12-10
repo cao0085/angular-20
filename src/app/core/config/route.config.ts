@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { ClaimCode } from '../models/claims';
+import { ClaimCode } from '../constants/claims';
 import { permissionGuard } from '../guards/auth.guard';
 
 /**
