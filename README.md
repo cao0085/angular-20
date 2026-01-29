@@ -1,30 +1,31 @@
-# Angular20TEST
+# Angular20 ERP System
 
+<!-- 這個專案用來練習 ERP System -->
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.12.
+
+[ref1](http://v20.angular.dev/guide/signals)
+[ref2](https://nx.dev/blog/angular-state-management-2025)
+[ref3](https://modernangular.com/articles/service-with-a-signal-in-angular)
 
 ## Development server
 
-To start a local development server, run:
+To start a local development server in docker, run:
 
 ```bash
-ng serve
-```
+docker-compose up -d --build
+docker-compose exec node-app bash
+npm install -g @angular/cli@20
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
+# ng
+ng serve --port YOUR DOCKER PORT --host 0.0.0.0
+ng generate component <component-name>
 ng generate --help
+ng build
 ```
+
+## Auth Pattern
+
+
 
 ## Building
 
