@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, Injector, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import userPermissionData from '../../../mockDB/userPermission.json';
 
@@ -12,9 +12,10 @@ export interface User {
     providedIn: 'root'
 })
 export class AuthService {
-    // 使用 signal 管理登入狀態
+
     private currentUser = signal<User | null>(null);
     private token = signal<string | null>(null);
+    private injector = inject(Injector);
 
     // 公開的唯讀 signal
     readonly user$ = this.currentUser.asReadonly();
@@ -37,7 +38,7 @@ export class AuthService {
      * @returns { success: boolean, message?: string }
      */
     login(username: string, password: string): { success: boolean; message?: string } {
-        // 從 userPermission.json 中查找使用者
+        // userPermission.json 模擬驗證
         const foundUser = userPermissionData.users.find(
             u => u.username === username && u.password === password
         );
@@ -45,7 +46,7 @@ export class AuthService {
         if (!foundUser) {
             return {
                 success: false,
-                message: '帳號或密碼錯誤'
+                message: 'invalid_credentials'
             };
         }
 
@@ -80,9 +81,13 @@ export class AuthService {
         // 清除 localStorage
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-
-        // 導向登入頁
-        this.router.navigate(['/login']);
+        
+        // 延遲取得 TabService 避免循環依賴
+        import('./tab.service').then(m => {
+            const tabService = this.injector.get(m.TabService);
+            tabService.closeAllTabs();
+            this.router.navigate(['/login']);
+        });
     }
 
     /**

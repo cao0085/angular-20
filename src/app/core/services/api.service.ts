@@ -197,13 +197,13 @@ export class BaseApiService {
 
 /**
  * Domain 1 API Service
- * 自動帶 Domain 1 的 base URL（從環境配置讀取）
+ * 自動帶 mainDomain 1 的 base URL
  */
 @Injectable({
     providedIn: 'root'
 })
-export class NpcsApiService extends BaseApiService {
-    protected override baseUrl = environment.apiUrls.npcsDomain;
+export class MainApiService extends BaseApiService {
+    protected override baseUrl = environment.apiUrls.mainDomain;
 }
 
 /**
@@ -215,26 +215,4 @@ export class NpcsApiService extends BaseApiService {
 })
 export class Domain2ApiService extends BaseApiService {
     protected override baseUrl = environment.apiUrls.domain2;
-}
-
-/**
- * Domain 3 API Service
- * 自動帶 Domain 3 的 base URL（從環境配置讀取）
- */
-@Injectable({
-    providedIn: 'root'
-})
-export class Domain3ApiService extends BaseApiService {
-    protected override baseUrl = environment.apiUrls.domain3;
-}
-
-/**
- * Domain 4 API Service
- * 自動帶 Domain 4 的 base URL（從環境配置讀取）
- */
-@Injectable({
-    providedIn: 'root'
-})
-export class Domain4ApiService extends BaseApiService {
-    protected override baseUrl = environment.apiUrls.domain4;
 }

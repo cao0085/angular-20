@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     apiUrls: {
-        npcsDomain: 'http://localhost:3000',
+        mainDomain: 'http://localhost:3000',
         domain2: 'http://localhost:4000',
         domain3: 'http://localhost:5000',
         domain4: 'http://localhost:6000'

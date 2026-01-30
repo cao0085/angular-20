@@ -1,10 +1,27 @@
 import { Route } from '@angular/router';
-import { ClaimCode } from '../constants/claims';
+// import { ClaimCode } from '../constants/claims';
 import { permissionGuard } from '../guards/auth.guard';
 
 /**
- * 路由配置介面
+ * 權限代碼枚舉
+ * 對應 userPermission.json 中的 claims.code
  */
+export enum ClaimCode {
+    // ========================================
+    // Basic System
+    // ========================================
+    BASIC_SYSTEM_MODULE = 'BASIC_SYSTEM_MODULE',
+    BASIC_SYSTEM_LOG = 'BASIC_SYSTEM_LOG',
+    BASIC_SYSTEM_DIRECTORY = 'BASIC_SYSTEM_DIRECTORY',
+
+    // ========================================
+    // External System
+    // ========================================
+    EXTERNAL_SYSTEM_MODULE = 'EXTERNAL_SYSTEM_MODULE',
+    EXTERNAL_SYSTEM_VENDOR_DATA = 'EXTERNAL_SYSTEM_VENDOR_DATA',
+    EXTERNAL_SYSTEM_VENDOR_INTEGRATION = 'EXTERNAL_SYSTEM_VENDOR_INTEGRATION',
+}
+
 export interface RouteConfig {
     path: string;
     claim: ClaimCode;
@@ -14,7 +31,6 @@ export interface RouteConfig {
 
 /**
  * 集中管理的路由配置
- * 同時定義路由路徑、權限、和元件
  */
 export const ROUTE_CONFIGS: RouteConfig[] = [
     // ========================================

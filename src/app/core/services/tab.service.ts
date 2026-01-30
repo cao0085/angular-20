@@ -142,8 +142,6 @@ export class TabService {
         }
         this.tabs.set([]);
         this.activeTabId.set('');
-        // 回到首頁
-        this.router.navigate(['/']);
     }
 
     /**

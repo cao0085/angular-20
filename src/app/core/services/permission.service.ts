@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core';
 import { AuthService } from './auth.service';
 import userPermissionData from '../../../mockDB/userPermission.json';
 
@@ -96,9 +96,12 @@ export class PermissionService {
         // 載入所有權限定義
         this.loadClaims();
 
-        // 監聽登入狀態，自動載入使用者權限
-        this.authService.user$();
-        this.loadUserClaims();
+        // 監聽登入狀態變化，自動重新載入使用者權限
+        effect(() => {
+            const user = this.authService.user$();
+            console.log('權限系統偵測到使用者變化:', user?.username ?? '未登入');
+            this.loadUserClaims();
+        });
     }
 
     /**
@@ -171,7 +174,7 @@ export class PermissionService {
      * Debug 用：印出當前使用者的所有權限
      */
     debugPrintUserClaims(): void {
-        console.group('🔐 使用者權限列表');
+        console.group('使用者權限列表');
         console.log('使用者:', this.authService.getCurrentUser());
         console.log('權限數量:', this.userClaims().length);
         console.table(this.userClaims());

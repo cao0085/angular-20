@@ -9,10 +9,10 @@
         },
         {
             "id": 2,
-            "username": "user01",
+            "username": "user",
             "password": "user123",
-            "email": "user01@example.com",
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoidXNlcjAxIn0.mock_token_user01"
+            "email": "user@example.com",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoidXNlcjAxIn0.mock_token_user"
         },
         {
             "id": 3,
@@ -73,65 +73,17 @@
         }
     ],
     "userClaims": [
-        {
-            "userId": 1,
-            "claimId": 1
-        },
-        {
-            "userId": 1,
-            "claimId": 2
-        },
-        {
-            "userId": 1,
-            "claimId": 3
-        },
-        {
-            "userId": 1,
-            "claimId": 4
-        },
-        {
-            "userId": 1,
-            "claimId": 5
-        },
-        {
-            "userId": 1,
-            "claimId": 6
-        },
-        {
-            "userId": 1,
-            "claimId": 7
-        },
-        {
-            "userId": 1,
-            "claimId": 8
-        },
-        {
-            "userId": 1,
-            "claimId": 9
-        },
-        {
-            "userId": 2,
-            "claimId": 2
-        },
-        {
-            "userId": 2,
-            "claimId": 3
-        },
-        {
-            "userId": 2,
-            "claimId": 5
-        },
-        {
-            "userId": 2,
-            "claimId": 8
-        },
-        {
-            "userId": 2,
-            "claimId": 9
-        },
-        {
-            "userId": 2,
-            "claimId": 10
-        }
+        { "userId": 1, "claimId": 1 },
+        { "userId": 1, "claimId": 2 },
+        { "userId": 1, "claimId": 3 },
+        { "userId": 1, "claimId": 7 },
+        { "userId": 1, "claimId": 8 },
+        { "userId": 1, "claimId": 9 },
+        { "userId": 2, "claimId": 1 },
+        { "userId": 2, "claimId": 2 },
+        { "userId": 2, "claimId": 7 },
+        { "userId": 2, "claimId": 8 },
+        { "userId": 3, "claimId": 1 },
+        { "userId": 3, "claimId": 3 }
     ]
 }
