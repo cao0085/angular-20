@@ -25,7 +25,7 @@ interface MenuItem {
       <!-- 標頭：首頁按鈕 + 收合按鈕 -->
       <div class="sidebar-header">
         <button class="home-btn" (click)="goToHome()" *ngIf="!isCollapsed" title="回到首頁">
-          <span class="label">首頁</span>
+          <span class="label">Home</span>
         </button>
         <button class="toggle-btn" (click)="toggleSidebar()" [title]="isCollapsed ? '展開側邊欄' : '收合側邊欄'">
           <span>{{ isCollapsed ? '▶' : '◀' }}</span>

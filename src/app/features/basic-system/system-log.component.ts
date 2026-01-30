@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
     standalone: true,
     template: `
     <div class="page-container">
-      <h1>歡迎來到 基礎系統 - 系統日誌</h1>
+      <h1>Welcome to System Log</h1>
     </div>
   `,
     styles: [`

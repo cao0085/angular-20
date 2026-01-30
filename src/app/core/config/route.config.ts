@@ -34,13 +34,6 @@ export const ROUTE_CONFIGS: RouteConfig[] = [
             .then(m => m.SystemDirectoryComponent),
         reuseRoute: true
     },
-    {
-        path: 'basic-system/permission-list',
-        claim: ClaimCode.BASIC_SYSTEM_PERMISSION,
-        loadComponent: () => import('../../features/basic-system/permission-list/permission-list')
-            .then(m => m.PermissionList),
-        reuseRoute: true
-    },
 
     // ========================================
     // 外部系統
@@ -57,56 +50,6 @@ export const ROUTE_CONFIGS: RouteConfig[] = [
         claim: ClaimCode.EXTERNAL_SYSTEM_VENDOR_INTEGRATION,
         loadComponent: () => import('../../features/external-system/vendor-integration.component')
             .then(m => m.VendorIntegrationComponent),
-        reuseRoute: true
-    },
-
-    // ========================================
-    // 金流系統
-    // ========================================
-    {
-        path: 'payment-system/payment-method',
-        claim: ClaimCode.PAYMENT_SYSTEM_METHOD,
-        loadComponent: () => import('../../features/payment-system/payment-method.component')
-            .then(m => m.PaymentMethodComponent),
-        reuseRoute: true
-    },
-    {
-        path: 'payment-system/payment-integration',
-        claim: ClaimCode.PAYMENT_SYSTEM_INTEGRATION,
-        loadComponent: () => import('../../features/payment-system/payment-integration.component')
-            .then(m => m.PaymentIntegrationComponent),
-        reuseRoute: true
-    },
-
-    // ========================================
-    // 路邊停車系統
-    // ========================================
-    {
-        path: 'parking-system/order-management',
-        claim: ClaimCode.PARKING_SYSTEM_ORDER,
-        loadComponent: () => import('../../features/parking-system/order-management.component')
-            .then(m => m.OrderManagementComponent),
-        reuseRoute: true
-    },
-    {
-        path: 'parking-system/report-analysis/void-report',
-        claim: ClaimCode.PARKING_SYSTEM_REPORT_VOID,
-        loadComponent: () => import('../../features/parking-system/report-analysis/void-report.component')
-            .then(m => m.VoidReportComponent),
-        reuseRoute: true
-    },
-    {
-        path: 'parking-system/report-analysis/billing-detail',
-        claim: ClaimCode.PARKING_SYSTEM_REPORT_BILLING,
-        loadComponent: () => import('../../features/parking-system/report-analysis/billing-detail.component')
-            .then(m => m.BillingDetailComponent),
-        reuseRoute: true
-    },
-    {
-        path: 'parking-system/report-analysis/upload-statistics',
-        claim: ClaimCode.PARKING_SYSTEM_REPORT_UPLOAD,
-        loadComponent: () => import('../../features/parking-system/report-analysis/upload-statistics.component')
-            .then(m => m.UploadStatisticsComponent),
         reuseRoute: true
     }
 ];

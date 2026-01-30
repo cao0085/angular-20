@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
   template: `
     <header class="header">
       <div class="header-left">
-        <h2>停車管理系統</h2>
+        <h2>Angular 20</h2>
       </div>
       <div class="header-right">
         @if (currentUser()) {
@@ -17,7 +17,7 @@ import { AuthService } from '../services/auth.service';
             <span class="user-name">{{ currentUser()?.username }}</span>
           </div>
           <button class="logout-btn" (click)="logout()" title="登出">
-            <span class="logout-text">登出</span>
+            <span class="logout-text">logout</span>
           </button>
         }
       </div>

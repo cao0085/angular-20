@@ -5,8 +5,9 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `
     <div class="page-container">
-      <h1>歡迎來到 外部系統 - 廠商串接</h1>
-      <input type="text" placeholder="測試狀態有沒有保留">
+      <h1>Test Data 2</h1>
+      <div> Test if input values persist across tab/route changes.</div>
+      <input type="text"/>
     </div>
   `,
   styles: [`

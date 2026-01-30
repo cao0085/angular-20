@@ -8,8 +8,7 @@ import { CommonModule } from '@angular/common';
     template: `
     <div class="home-container">
       <div class="welcome-section">
-        <h1>歡迎來到 NPCS 系統</h1>
-        <p class="subtitle">Neighborhood Parking Control System</p>
+        <h1>Welcome To ERP System Template !</h1>
       </div>
     </div>
   `,

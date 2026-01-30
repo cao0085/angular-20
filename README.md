@@ -2,7 +2,7 @@
 
 Built with **Angular 20** Standalone Components architecture, featuring comprehensive permission management, dynamic tab system, and modular design.
 
-## Project Background
+## Background
 
 This project serves as a practice ground for validating core Angular 20 concepts before introducing them into production:
 - **Signals** - Next-generation reactive state management
@@ -64,35 +64,11 @@ src/app/
 └── app.ts
 ```
 
-
-<!-- ### 本地開發 (不使用 Docker)
-
-```bash
-# 安裝依賴
-npm install
-
-# 啟動開發伺服器
-npm start
-# 或
-ng serve
-
-# 開啟瀏覽器訪問
-http://localhost:4200
-```
-
-### Docker 開發環境
+### Development
 
 ```bash
-# 啟動 Docker 容器
 docker-compose up -d --build
-
-# 進入容器
-docker-compose exec node-app bash
-
-# 安裝 Angular CLI
-npm install -g @angular/cli@20
-
-# 啟動開發伺服器 (注意要綁定 0.0.0.0)
+# In Container
 ng serve --port 4040 --host 0.0.0.0
 ```
 

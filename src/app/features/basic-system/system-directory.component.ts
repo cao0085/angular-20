@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
     standalone: true,
     template: `
     <div class="page-container">
-      <h1>歡迎來到 基礎系統 - 系統目錄</h1>
+      <h1>Welcome to System Directory</h1>
     </div>
   `,
     styles: [`
