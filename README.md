@@ -22,38 +22,33 @@ These concepts have been successfully adopted in production applications.
 src/app/
 ├── core/                           
 │   ├── layout/                     
-│   │   ├── main-layout.component.ts    # 主版面 (整合 Sidebar + Header + TabContainer)
+│   │   ├── main-layout.component.ts    # Sidebar + Header + TabContainer
 │   │   ├── sidebar.component.ts
 │   │   ├── header.component.ts
-│   │   └── tab-container.component.ts  # main container
+│   │   └── tab-container.component.ts  # main container (features component)
 │   ├── services/                  # DI Service
 │   │   ├── tab.service.ts
 │   │   ├── api.service.ts
-│   │   └── auth.service.ts        # Role
+│   │   ├── auth.service.ts
+│   │   └── .....service.ts
 │   ├── guards/
-│   │   ├── auth.guard.ts
-│   │   └── role.guard.ts
+│   │   └── auth.guard.ts
 │   ├── interceptors/               # HTTP
-│   ├── models/                     # data model
-│   ├── store/                      # singleton
 │   └── strategies/                 # no state function
 │
 ├── features/                       # render in tab-container    
 │   ├── basic-system/
 │   │   ├── system-log.component.ts
-│   │   ├── system-directory.component.ts
-│   │   ├── menu-management.component.ts
-│   │   └── account-management.component.ts
-│   ├── other-system/
-│       ├── payment-method.component.ts
-│       └── payment-integration.component.ts
+│   │   └── system-directory.component.ts
+│   └── other-system/
+│       ├── test.component.ts
+│       └── test2.component.ts
 │
 ├── pages/                          # single pages
-│   └── login/
+│   └── login
 │
 ├── mockDB/                         # Mock Data
-│   ├── users.ts
-│   └── menu.ts
+│   └── userPermission.ts
 │
 ├── environments/
 │   ├── environment.ts
@@ -72,136 +67,13 @@ docker-compose up -d --build
 ng serve --port 4040 --host 0.0.0.0
 ```
 
-### 預設登入帳號
+## Conclusion
 
-系統提供四種角色的測試帳號:
+After completing this project, several issues were identified that would require attention in a production environment:
 
-| 角色 | 帳號 | 密碼 | 權限範圍 |
-|------|------|------|----------|
-| 系統人員 | `admin` | `password` | 所有模組 |
-| 場地經理 | `director` | `password` | 外部系統、停車系統 |
-| 場地管理員 | `manager` | `password` | 基礎系統、停車系統 |
-| 訪客 | `viewer` | `password` | 停車系統 |
+- **RouteReuse Recursion** - Complex nested route scenarios may cause recursive reuse issues
+- **Auth Token** - App init Token refresh flow and request retry mechanism need proper implementation
+- **Storage State Sync** - State synchronization between localStorage and application state requires more robust handling
+- **Circular Dependencies** - Service injection order needs careful consideration
 
-## 💻 開發指南
-
-### 新增功能頁面
-
-1. **建立元件**
-```bash
-ng generate component features/your-module/your-feature
-```
-
-2. **加入路由** (`app.routes.ts`)
-```typescript
-{
-  path: 'your-module/your-feature',
-  loadComponent: () => import('./features/your-module/your-feature.component')
-    .then(m => m.YourFeatureComponent),
-  canActivate: [authGuard, roleGuard],
-  data: { roles: ModulePermissions[ModuleId.YOUR_MODULE] }
-}
-```
-
-3. **加入選單** (`sidebar.component.ts`)
-```typescript
-{
-  id: 'your-feature',
-  label: '你的功能',
-  route: '/main/your-module/your-feature',
-  icon: '🎯'
-}
-```
-
-### 新增 API 服務
-
-繼承 `BaseApiService` 來建立新的 API 服務:
-
-```typescript
-import { Injectable } from '@angular/core';
-import { BaseApiService } from '@core/services/base-api.service';
-
-@Injectable({ providedIn: 'root' })
-export class YourService extends BaseApiService {
-  getYourData() {
-    return this.get<YourDataType>('DOMAIN_1', '/api/your-endpoint');
-  }
-
-  createYourData(data: YourDataType) {
-    return this.post<YourDataType>('DOMAIN_1', '/api/your-endpoint', data);
-  }
-}
-```
-
-### 常用指令
-
-```bash
-# 生成元件
-ng generate component <component-name>
-
-# 生成服務
-ng generate service <service-name>
-
-# 生成守衛
-ng generate guard <guard-name>
-
-# 建置專案
-ng build
-
-# 執行測試
-ng test
-
-# 查看更多指令
-ng generate --help
-```
-
-## 🔐 權限管理
-
-### 權限配置 (`core/models/roles.ts`)
-
-```typescript
-// 定義模組 ID
-export enum ModuleId {
-  BASIC_SYSTEM = 'BASIC_SYSTEM',
-  EXTERNAL_SYSTEM = 'EXTERNAL_SYSTEM',
-  PAYMENT_SYSTEM = 'PAYMENT_SYSTEM',
-  PARKING_SYSTEM = 'PARKING_SYSTEM'
-}
-
-// 集中管理權限 (單一真相來源)
-export const ModulePermissions: Record<ModuleId, readonly UserRole[]> = {
-  [ModuleId.BASIC_SYSTEM]: [UserRole.SITE_MANAGER, UserRole.ADMIN],
-  [ModuleId.EXTERNAL_SYSTEM]: [UserRole.SITE_DIRECTOR, UserRole.ADMIN],
-  [ModuleId.PAYMENT_SYSTEM]: [UserRole.ADMIN],
-  [ModuleId.PARKING_SYSTEM]: [UserRole.SITE_MANAGER, UserRole.SITE_DIRECTOR, UserRole.ADMIN]
-};
-```
-
-### 權限檢查流程
-
-```
-使用者訪問頁面
-    ↓
-authGuard 檢查是否已登入
-    ↓
-roleGuard 檢查是否有權限
-    ↓
-允許訪問 / 導向登入頁
-```
-
-### 修改權限
-
-只需在 `roles.ts` 中修改 `ModulePermissions`,所有引用的地方會自動更新:
-
-```typescript
-// 將基礎系統開放給場地經理
-[ModuleId.BASIC_SYSTEM]: [UserRole.SITE_MANAGER, UserRole.SITE_DIRECTOR, UserRole.ADMIN]
-``` -->
-
-
-## Reference Links
-
-- [Angular Signals 官方文件](http://v20.angular.dev/guide/signals)
-- [Angular State Management 2025](https://nx.dev/blog/angular-state-management-2025)
-- [Service with a Signal in Angular](https://modernangular.com/articles/service-with-a-signal-in-angular)
-- [Angular CLI 文件](https://github.com/angular/angular-cli)
+These issues have been resolved in production applications, but the updated code contains proprietary business logic and cannot be shared in this public repository.
